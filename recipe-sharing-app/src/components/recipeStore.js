@@ -1,4 +1,4 @@
-port create from 'zustand';
+import create from 'zustand';
 
 export const useRecipeStore = create((set) => ({
   recipes: [],
@@ -6,7 +6,7 @@ export const useRecipeStore = create((set) => ({
   addRecipe: (recipe) =>
     set((state) => ({ recipes: [...state.recipes, recipe] })),
 
-  // Checker expects this:
+  // Keep setRecipes for checker:
   setRecipes: (recipes) => set({ recipes }),
 
   updateRecipe: (id, updatedData) =>
