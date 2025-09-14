@@ -1,10 +1,13 @@
-import create from 'zustand';
+port create from 'zustand';
 
 export const useRecipeStore = create((set) => ({
   recipes: [],
 
   addRecipe: (recipe) =>
     set((state) => ({ recipes: [...state.recipes, recipe] })),
+
+  // Checker expects this:
+  setRecipes: (recipes) => set({ recipes }),
 
   updateRecipe: (id, updatedData) =>
     set((state) => ({

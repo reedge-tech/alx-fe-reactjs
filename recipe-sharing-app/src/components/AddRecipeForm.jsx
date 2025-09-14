@@ -6,27 +6,33 @@ const AddRecipeForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim()) return;
-    addRecipe({ id: Date.now(), title: title.trim(), description: description.trim() });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newRecipe = {
+      id: Date.now(),
+      title,
+      description,
+    };
+    addRecipe(newRecipe);
     setTitle('');
     setDescription('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2>Add Recipe</h2>
       <input
         type="text"
+        placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
         required
       />
       <textarea
+        placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
+        required
       />
       <button type="submit">Add Recipe</button>
     </form>
