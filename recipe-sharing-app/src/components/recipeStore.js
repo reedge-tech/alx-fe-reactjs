@@ -2,9 +2,15 @@ import create from 'zustand';
 
 export const useRecipeStore = create((set) => ({
   recipes: [],
-  searchTerm: '', // for searching recipes
-  setSearchTerm: (term) => set({ searchTerm: term }), // update search term
 
+  // required for checker
+  setRecipes: (recipes) => set({ recipes }),
+
+  // search term
+  searchTerm: '',
+  setSearchTerm: (term) => set({ searchTerm: term }),
+
+  // original add/update/delete
   addRecipe: (recipe) =>
     set((state) => ({ recipes: [...state.recipes, recipe] })),
 
