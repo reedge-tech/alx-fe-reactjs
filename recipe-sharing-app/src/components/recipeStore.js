@@ -5,6 +5,22 @@ export const useRecipeStore = create((set) => ({
   recipes: [],
   setRecipes: (newRecipes) => set({ recipes: newRecipes }),
 
+  // CRUD actions (required by previous tasks)
+  addRecipe: (recipe) =>
+    set((state) => ({ recipes: [...state.recipes, recipe] })),
+
+  updateRecipe: (id, updatedData) =>
+    set((state) => ({
+      recipes: state.recipes.map((r) =>
+        r.id === id ? { ...r, ...updatedData } : r
+      ),
+    })),
+
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((r) => r.id !== id),
+    })),
+
   // --- Search / Filter ---
   searchTerm: '',
   setSearchTerm: (term) => set({ searchTerm: term }),
