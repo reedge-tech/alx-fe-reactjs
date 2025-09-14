@@ -27,11 +27,10 @@ const AddRecipeForm = () => {
         placeholder="Recipe Title"
         required
       />
-      <input
-        type="text"
+      <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
+        placeholder="Recipe Description"
         required
       />
       <button type="submit">Add Recipe</button>

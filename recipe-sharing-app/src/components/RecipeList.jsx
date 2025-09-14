@@ -6,6 +6,7 @@ const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);
   const searchTerm = useRecipeStore((state) => state.searchTerm);
 
+  // Filter recipes dynamically
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
