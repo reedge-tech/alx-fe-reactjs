@@ -1,42 +1,56 @@
-import { useState } from 'react';
-import axios from 'axios';
-import UserCard from './UserCard';
+// src/components/Search.jsx
+import React, { useState } from 'react';
+import { fetchUserData } from '../services/githubService';
 
-export default function Search() {
-  const [query, setQuery] = useState('');
+const Search = () => {
+  const [username, setUsername] = useState('');
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const searchUser = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError('');
     setUser(null);
-    if (!query.trim()) return setError('Please enter a username.');
+
     try {
-      const token = import.meta.env.VITE_APP_GITHUB_API_KEY;
-      const headers = token ? { Authorization: `token ${token}` } : {};
-      const res = await axios.get(`https://api.github.com/users/${encodeURIComponent(query)}`, { headers });
-      setUser(res.data);
+      const data = await fetchUserData(username);
+      setUser(data);
     } catch (err) {
-      if (err.response?.status === 404) setError('User not found.');
-      else setError('Error fetching user. Check network or token.');
+      setError("Looks like we can't find the user");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <form onSubmit={searchUser} style={{ display: 'flex', gap: 8 }}>
+    <div style={{ textAlign: 'center' }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
         <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter GitHub username (e.g. torvalds)"
-          style={{ flex: 1, padding: 8 }}
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter GitHub username"
+          required
         />
-        <button type="submit" style={{ padding: '8px 12px' }}>Search</button>
+        <button type="submit">Search</button>
       </form>
 
+      {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {user && <UserCard user={user} />}
+
+      {user && (
+        <div>
+          <img src={user.avatar_url} alt={user.login} width="100" />
+          <h3>{user.name || user.login}</h3>
+          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+            View Profile
+          </a>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default Search;
