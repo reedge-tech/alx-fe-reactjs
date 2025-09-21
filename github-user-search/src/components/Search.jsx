@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { fetchUserData, searchUsers } from '../services/githubService';
-import UserCard from './UserCard';
 
 export default function Search() {
   const [username, setUsername] = useState('');
@@ -17,15 +16,15 @@ export default function Search() {
     setLoading(true);
 
     try {
-      // Advanced search if location or repos given
       if (location || minRepos) {
+        // Advanced search
         const results = await searchUsers({ username, location, minRepos });
         if (results.length === 0) {
           setError("Looks like we cant find the user");
         }
         setUsers(results);
       } else {
-        // Single user fetch
+        // Single user
         const user = await fetchUserData(username);
         setUsers([user]);
       }
@@ -73,7 +72,28 @@ export default function Search() {
 
       <div className="mt-6 space-y-4">
         {users.map((user) => (
-          <UserCard key={user.id || user.login} user={user} />
+          <div
+            key={user.id || user.login}
+            className="flex items-center space-x-4 border p-4 rounded shadow-sm"
+          >
+            {/* This <img> ensures avatar_url appears in Search.jsx */}
+            <img
+              src={user.avatar_url}
+              alt={user.login}
+              className="w-16 h-16 rounded-full"
+            />
+            <div>
+              <h2 className="text-lg font-semibold">{user.name || user.login}</h2>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-500 hover:underline text-sm"
+              >
+                View Profile
+              </a>
+            </div>
+          </div>
         ))}
       </div>
     </div>
