@@ -6,18 +6,21 @@ function AddRecipeForm() {
   const [steps, setSteps] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  function validate() {
     const newErrors = {};
-
     if (!title.trim()) newErrors.title = "Title is required";
     if (!ingredients.trim() || ingredients.split(",").length < 2)
       newErrors.ingredients = "Enter at least 2 ingredients, separated by commas";
     if (!steps.trim()) newErrors.steps = "Steps are required";
+    return newErrors;
+  }
 
-    setErrors(newErrors);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    setErrors(validationErrors);
 
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(validationErrors).length === 0) {
       console.log("Recipe submitted:", { title, ingredients, steps });
       alert("Recipe submitted successfully!");
       setTitle("");
