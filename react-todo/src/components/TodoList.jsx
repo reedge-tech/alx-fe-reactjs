@@ -8,7 +8,8 @@ export default function TodoList() {
   ]);
 
   const addTodo = (text) => {
-    setTodos([...todos, { id: Date.now(), text, completed: false }]);
+    const newTodo = { id: Date.now(), text, completed: false };
+    setTodos([...todos, newTodo]);
   };
 
   const toggleTodo = (id) => {
@@ -31,6 +32,7 @@ export default function TodoList() {
         {todos.map((todo) => (
           <li
             key={todo.id}
+            data-testid={`todo-${todo.id}`}
             onClick={() => toggleTodo(todo.id)}
             style={{
               textDecoration: todo.completed ? "line-through" : "none",
@@ -38,7 +40,9 @@ export default function TodoList() {
             }}
           >
             {todo.text}
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
