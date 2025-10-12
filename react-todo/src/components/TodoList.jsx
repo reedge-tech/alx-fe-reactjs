@@ -5,42 +5,42 @@ function TodoList() {
     { text: "Learn React", completed: false },
     { text: "Build a project", completed: false },
   ]);
-  const [newTodo, setNewTodo] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
-  const addTodo = () => {
-    if (newTodo.trim()) {
-      setTodos([...todos, { text: newTodo, completed: false }]);
-      setNewTodo("");
+  const handleAddTodo = () => {
+    if (inputValue.trim() !== "") {
+      setTodos([...todos, { text: inputValue, completed: false }]);
+      setInputValue("");
     }
   };
 
-  const toggleTodo = (index) => {
-    const updated = todos.map((todo, i) =>
+  const handleToggleTodo = (index) => {
+    const updatedTodos = todos.map((todo, i) =>
       i === index ? { ...todo, completed: !todo.completed } : todo
     );
-    setTodos(updated);
+    setTodos(updatedTodos);
   };
 
-  const deleteTodo = (index) => {
-    const updated = todos.filter((_, i) => i !== index);
-    setTodos(updated);
+  const handleDeleteTodo = (index) => {
+    const updatedTodos = todos.filter((_, i) => i !== index);
+    setTodos(updatedTodos);
   };
 
   return (
     <div>
-      <h2>Todo List</h2>
+      <h1>Todo List</h1>
       <input
         type="text"
         placeholder="Add a todo"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
-      <button onClick={addTodo}>Add</button>
+      <button onClick={handleAddTodo}>Add</button>
       <ul>
         {todos.map((todo, index) => (
           <li key={index}>
             <span
-              onClick={() => toggleTodo(index)}
+              onClick={() => handleToggleTodo(index)}
               style={{
                 textDecoration: todo.completed ? "line-through" : "none",
                 cursor: "pointer",
@@ -49,7 +49,7 @@ function TodoList() {
             >
               {todo.text}
             </span>
-            <button onClick={() => deleteTodo(index)}>Delete</button>
+            <button onClick={() => handleDeleteTodo(index)}>Delete</button>
           </li>
         ))}
       </ul>
