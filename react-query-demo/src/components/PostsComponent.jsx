@@ -7,10 +7,20 @@ async function fetchPosts() {
 }
 
 export default function PostsComponent() {
-  const { data, isError, isLoading, error, refetch, isFetching } = useQuery({
+  const {
+    data,
+    isError,
+    isLoading,
+    error,
+    refetch,
+    isFetching,
+  } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    staleTime: 1000 * 60 * 5, // cache for 5 minutes
+    staleTime: 1000 * 60 * 5, // keep data fresh for 5 min
+    cacheTime: 1000 * 60 * 10, // keep data in cache for 10 min
+    refetchOnWindowFocus: false, // disable auto refetch on focus
+    keepPreviousData: true, // keep old data while refetching
   });
 
   if (isLoading) return <p>Loading posts...</p>;
@@ -37,7 +47,7 @@ export default function PostsComponent() {
       </ul>
 
       <p className="text-sm text-gray-500 mt-4">
-        (Data is cached for 5 minutes — navigate away and back to see caching.)
+        Cached for 10 minutes. (cacheTime, keepPreviousData, refetchOnWindowFocus used)
       </p>
     </div>
   );
