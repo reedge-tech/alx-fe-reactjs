@@ -4,18 +4,23 @@ function RegistrationForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newErrors = {};
 
-    if (!username || !email || !password) {
-      setError("All fields are required!");
+    if (!username) newErrors.username = "Username is required";
+    if (!email) newErrors.email = "Email is required";
+    if (!password) newErrors.password = "Password is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
-    setError("");
+    setErrors({});
     setMessage(\`User \${username} registered successfully!\`);
   };
 
@@ -34,6 +39,7 @@ function RegistrationForm() {
           onChange={(e) => setUsername(e.target.value)}
           className="w-full p-2 border rounded"
         />
+        {errors.username && <p className="text-red-500">{errors.username}</p>}
 
         <input
           type="email"
@@ -43,6 +49,7 @@ function RegistrationForm() {
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 border rounded"
         />
+        {errors.email && <p className="text-red-500">{errors.email}</p>}
 
         <input
           type="password"
@@ -52,8 +59,8 @@ function RegistrationForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-2 border rounded"
         />
+        {errors.password && <p className="text-red-500">{errors.password}</p>}
 
-        {error && <p className="text-red-500">{error}</p>}
         {message && <p className="text-green-600">{message}</p>}
 
         <button
