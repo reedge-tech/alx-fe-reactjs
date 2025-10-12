@@ -1,23 +1,23 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function FormikForm() {
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      password: "",
-    },
-    validationSchema: Yup.object({
-      username: Yup.string().required("Username is required"),
-      email: Yup.string().email("Invalid email").required("Email is required"),
-      password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
-    }),
-    onSubmit: (values) => {
-      alert(`User ${values.username} registered successfully!`);
-    },
+  const validationSchema = Yup.object({
+    username: Yup.string().required("Username is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   });
+
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+  };
+
+  const handleSubmit = (values) => {
+    alert(`User ${values.username} registered successfully!`);
+  };
 
   return (
     <div className="p-8 max-w-md mx-auto bg-gray-100 shadow-lg rounded-lg mt-10">
@@ -25,50 +25,64 @@ function FormikForm() {
         Formik Registration Form
       </h1>
 
-      <form onSubmit={formik.handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          className="w-full p-2 border rounded"
-        />
-        {formik.touched.username && formik.errors.username && (
-          <p className="text-red-500">{formik.errors.username}</p>
-        )}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {() => (
+          <Form className="space-y-4">
+            <div>
+              <Field
+                type="text"
+                name="username"
+                placeholder="Username"
+                className="w-full p-2 border rounded"
+              />
+              <ErrorMessage
+                name="username"
+                component="p"
+                className="text-red-500"
+              />
+            </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          className="w-full p-2 border rounded"
-        />
-        {formik.touched.email && formik.errors.email && (
-          <p className="text-red-500">{formik.errors.email}</p>
-        )}
+            <div>
+              <Field
+                type="email"
+                name="email"
+                placeholder="Email"
+                className="w-full p-2 border rounded"
+              />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className="text-red-500"
+              />
+            </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          className="w-full p-2 border rounded"
-        />
-        {formik.touched.password && formik.errors.password && (
-          <p className="text-red-500">{formik.errors.password}</p>
-        )}
+            <div>
+              <Field
+                type="password"
+                name="password"
+                placeholder="Password"
+                className="w-full p-2 border rounded"
+              />
+              <ErrorMessage
+                name="password"
+                component="p"
+                className="text-red-500"
+              />
+            </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded"
-        >
-          Submit
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 rounded"
+            >
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }
