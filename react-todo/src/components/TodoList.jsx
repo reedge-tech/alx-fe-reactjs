@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 
 function TodoList() {
-  const [todos, setTodos] = useState(["Learn React", "Build a project"]);
+  const [todos, setTodos] = useState([
+    { text: "Learn React", completed: false },
+    { text: "Build a project", completed: false },
+  ]);
   const [newTodo, setNewTodo] = useState("");
 
   const addTodo = () => {
-    if (newTodo.trim() === "") return;
-    setTodos([...todos, newTodo]);
-    setNewTodo("");
+    if (newTodo.trim()) {
+      setTodos([...todos, { text: newTodo, completed: false }]);
+      setNewTodo("");
+    }
   };
 
   const toggleTodo = (index) => {
-    const updated = [...todos];
-    if (updated[index].startsWith("[Done] ")) {
-      updated[index] = updated[index].replace("[Done] ", "");
-    } else {
-      updated[index] = `[Done] ${updated[index]}`;
-    }
+    const updated = todos.map((todo, i) =>
+      i === index ? { ...todo, completed: !todo.completed } : todo
+    );
     setTodos(updated);
   };
 
@@ -27,7 +28,7 @@ function TodoList() {
 
   return (
     <div>
-      <h1>Todo List</h1>
+      <h2>Todo List</h2>
       <input
         type="text"
         placeholder="Add a todo"
@@ -35,21 +36,18 @@ function TodoList() {
         onChange={(e) => setNewTodo(e.target.value)}
       />
       <button onClick={addTodo}>Add</button>
-
       <ul>
         {todos.map((todo, index) => (
           <li key={index}>
             <span
               onClick={() => toggleTodo(index)}
               style={{
+                textDecoration: todo.completed ? "line-through" : "none",
                 cursor: "pointer",
                 marginRight: "10px",
-                textDecoration: todo.startsWith("[Done] ")
-                  ? "line-through"
-                  : "none",
               }}
             >
-              {todo}
+              {todo.text}
             </span>
             <button onClick={() => deleteTodo(index)}>Delete</button>
           </li>
