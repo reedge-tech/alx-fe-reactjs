@@ -1,17 +1,9 @@
-# Advanced Routing in React with React Router
+# React Router Advanced
 
-This project demonstrates:
-- Nested routes inside a profile component
-- Dynamic routes for user profiles
-- Protected routes that require authentication
-- React Router v6 setup using Vite
+This project demonstrates advanced routing in React using React Router DOM.
 
-## Features
-- `/profile/:id` is protected and supports nested paths:
-  - `/profile/:id/details`
-  - `/profile/:id/settings`
-- `/user/:username` demonstrates dynamic routing.
-
-## Commands
-npm install
-npm run dev
+Features implemented:
+- BrowserRouter setup in the main App.jsx
+- Nested routes within the Profile component
+- Dynamic routing with `/blog/:id` using BlogPost component
+- Protected routes with authentication guard
