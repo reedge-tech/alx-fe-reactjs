@@ -1,5 +1,13 @@
 import React from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Routes, Route, useParams } from "react-router-dom";
+
+function ProfileDetails() {
+  return <h2>Profile Details Section</h2>;
+}
+
+function ProfileSettings() {
+  return <h2>Profile Settings Section</h2>;
+}
 
 export default function Profile() {
   const { id } = useParams();
@@ -11,15 +19,12 @@ export default function Profile() {
         <Link to="details">Details</Link>
         <Link to="settings">Settings</Link>
       </nav>
-      <Outlet />
+
+      {/* ✅ Nested routes implemented directly here */}
+      <Routes>
+        <Route path="details" element={<ProfileDetails />} />
+        <Route path="settings" element={<ProfileSettings />} />
+      </Routes>
     </div>
   );
-}
-
-export function ProfileDetails() {
-  return <h2>Profile Details Section</h2>;
-}
-
-export function ProfileSettings() {
-  return <h2>Profile Settings Section</h2>;
 }

@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
-import Profile, { ProfileDetails, ProfileSettings } from "./components/Profile";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Profile from "./components/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function Home() {
@@ -16,8 +11,8 @@ function About() {
   return <h1>About Page</h1>;
 }
 
-function User() {
-  return <h1>Dynamic User Route Example</h1>;
+function User({ username }) {
+  return <h1>Dynamic User Page for {username}</h1>;
 }
 
 export default function App() {
@@ -34,7 +29,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Protected Nested Route */}
+        {/* ✅ Protected + Nested route */}
         <Route
           path="/profile/:id/*"
           element={
@@ -42,12 +37,9 @@ export default function App() {
               <Profile />
             </ProtectedRoute>
           }
-        >
-          <Route path="details" element={<ProfileDetails />} />
-          <Route path="settings" element={<ProfileSettings />} />
-        </Route>
+        />
 
-        {/* Dynamic Route */}
+        {/* ✅ Dynamic route */}
         <Route path="/user/:username" element={<User />} />
       </Routes>
     </BrowserRouter>
