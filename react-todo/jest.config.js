@@ -1,4 +1,7 @@
 export default {
   testEnvironment: "jsdom",
-  transform: {},
+  transform: {
+    "^.+\\.[tj]sx?$": "babel-jest"
+  },
+  moduleFileExtensions: ["js", "jsx"],
 };
